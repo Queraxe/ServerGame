@@ -1,58 +1,65 @@
 package Server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 
 public class Main {
 
-    private ServerSocket server;
+    Socket socket;
+    InputStreamReader inputStreamReader;
+    OutputStreamWriter outputStreamWriter;
+    BufferedReader bufferedReader;
+    BufferedWriter bufferedWriter;
+
+    ServerSocket serverSocket;
     int port = 9933;
 
-    public Main() {
-        try {
+    public Main() throws IOException {
 
-            server = new ServerSocket(port);
-            server.setSoTimeout(100000);
-            run();
+        serverSocket = new ServerSocket(port);
+        System.out.println("ServerSocket: " + serverSocket);
 
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    void run(){
         while (true){
+
             try {
 
-                System.out.println("Waiting for client at " + server.getLocalPort());
-                Socket client = server.accept();
-                client.setSoTimeout(10000);
+                socket = serverSocket.accept();
+                System.out.println("New client online: " + socket);
 
-                DataInputStream input = new DataInputStream(client.getInputStream());
-                System.out.println(input.readUTF());
+                inputStreamReader = new InputStreamReader(socket.getInputStream());
+                outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
 
-                DataOutputStream output = new DataOutputStream(client.getOutputStream());
-                output.writeUTF("You are connected!");
+                bufferedReader = new BufferedReader(inputStreamReader);
+                bufferedWriter = new BufferedWriter(outputStreamWriter);
+
                 while (true) {
-                    try {
 
-                        System.out.println(input.readUTF());
+                    String msgFromClient = bufferedReader.readLine();
+                    System.out.println("Client: " + msgFromClient);
 
-                    } catch(Exception e){
-                        e.printStackTrace();
+                    bufferedWriter.write("MSG received");
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+
+                    if (msgFromClient.equalsIgnoreCase("disconnect")) {
+                        break;
                     }
                 }
 
-            } catch(Exception e){
+                socket.close();
+                inputStreamReader.close();
+                outputStreamWriter.close();
+                bufferedWriter.close();
+                bufferedReader.close();
+
+            } catch (IOException e) {
                 e.printStackTrace();
-                break;
             }
         }
     }
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
         System.out.println("Server");
         new Main();
     }

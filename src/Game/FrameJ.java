@@ -1,44 +1,74 @@
 package Game;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
-import java.sql.Struct;
 import java.util.Scanner;
 
 public class FrameJ {
 
     String serverIP = "92.75.167.95";
 
+    Socket socket;
+    InputStreamReader inputStreamReader;
+    OutputStreamWriter outputStreamWriter;
+    BufferedReader bufferedReader;
+    BufferedWriter bufferedWriter;
     Scanner scanner;
 
     public  FrameJ(){
         try {
 
-            Socket client = new Socket(serverIP, 9933);
-            client.setSoTimeout(100000);
+            socket = new Socket(serverIP, 9933);
 
-            DataOutputStream output = new DataOutputStream(client.getOutputStream());
-            output.writeUTF(client.getLocalAddress()+ " connected!");
+            inputStreamReader = new InputStreamReader(socket.getInputStream());
+            outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
 
-            DataInputStream input = new DataInputStream(client.getInputStream());
-            System.out.println("got sent: " + input.readUTF());
+            bufferedReader = new BufferedReader(inputStreamReader);
+            bufferedWriter = new BufferedWriter(outputStreamWriter);
+
+            scanner = new Scanner(System.in);
+
 
             while (true){
-                try {
-                    scanner = new Scanner(System.in);
-                    output.writeUTF(scanner.nextLine());
-                } catch (Exception e){
-                    e.printStackTrace();
-                    break;
+
+                    String msgToSend = scanner.nextLine();
+                    bufferedWriter.write(msgToSend);
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+
+                    System.out.println("Server" + bufferedReader.readLine());
+
+                    if (msgToSend.equalsIgnoreCase("disconnect")){
+                        break;
+                    }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        // do when while loop breaks
+        finally {
+            // close everything if not null
+            try {
+                if (socket != null) {
+                    socket.close();
                 }
+                if (inputStreamReader != null){
+                    inputStreamReader.close();
+                }
+                if (outputStreamWriter != null){
+                    outputStreamWriter.close();
+                }
+                if (bufferedReader != null){
+                    bufferedReader.close();
+                }
+                if (bufferedWriter != null){
+                    bufferedWriter.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-
-
-        } catch (IOException e){
-            e.printStackTrace();
         }
 
     }
