@@ -28,14 +28,22 @@ public class Main {
 
                 System.out.println("Waiting for client at " + server.getLocalPort());
                 Socket client = server.accept();
+                client.setSoTimeout(10000);
 
                 DataInputStream input = new DataInputStream(client.getInputStream());
                 System.out.println(input.readUTF());
 
                 DataOutputStream output = new DataOutputStream(client.getOutputStream());
-                output.writeUTF("Hello Boss! You are connected!");
+                output.writeUTF("You are connected!");
+                while (true) {
+                    try {
 
-                client.close();
+                        System.out.println(input.readUTF());
+
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
 
             } catch(Exception e){
                 e.printStackTrace();
