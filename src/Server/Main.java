@@ -10,6 +10,7 @@ public class Main {
     OutputStreamWriter outputStreamWriter;
     BufferedReader bufferedReader;
     BufferedWriter bufferedWriter;
+    int player = 0;
 
     ServerSocket serverSocket;
     int port = 9933;
@@ -19,12 +20,16 @@ public class Main {
         serverSocket = new ServerSocket(port);
         System.out.println("ServerSocket: " + serverSocket);
 
-        while (true){
+        while (player < 2){
+            player++;
+            socket = serverSocket.accept();
+            System.out.println("New client " + player +" is online: " + socket);
+        }
 
-            try {
 
-                socket = serverSocket.accept();
-                System.out.println("New client online: " + socket);
+        try {
+
+
 
                 inputStreamReader = new InputStreamReader(socket.getInputStream());
                 outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
@@ -56,7 +61,7 @@ public class Main {
                 e.printStackTrace();
             }
         }
-    }
+
 
 
     public static void main(String[] args) throws IOException {

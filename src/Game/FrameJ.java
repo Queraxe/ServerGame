@@ -36,8 +36,6 @@ public class FrameJ {
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
 
-                    System.out.println("Server" + bufferedReader.readLine());
-
                     if (msgToSend.equalsIgnoreCase("disconnect")){
                         break;
                     }
