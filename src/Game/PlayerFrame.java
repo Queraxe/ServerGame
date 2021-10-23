@@ -225,9 +225,9 @@ public class PlayerFrame {
         PlayerFrame pf = new PlayerFrame();
 
         pf.createPlayers();
-        pf.GUI();
         pf.connect();
 
+        pf.GUI();
 
     }
 
