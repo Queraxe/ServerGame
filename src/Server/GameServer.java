@@ -7,7 +7,7 @@ public class GameServer {
 
     private ServerSocket ss;
     private int numPort = 9933;
-    private int numPlayers;
+    static int numPlayers;
     private int maxPlayers;
 
     private Socket p1Socket;
@@ -78,9 +78,8 @@ public class GameServer {
         System.out.println("--The GAME begins!--");
     }
 
-    public void end(){
+    public static void end(){
         numPlayers = 0;
-
     }
 
 
@@ -109,6 +108,11 @@ public class GameServer {
                 }
             } catch (IOException e) {
                 System.out.println("IOException from RFC run()");
+            }
+            try {
+                dataIn.close();
+            } catch (IOException e) {
+                System.out.println("end");
             }
         }
     }
@@ -141,8 +145,14 @@ public class GameServer {
                         System.out.println("InterruptedException from WTC run()");
                     }
                 }
+
             } catch (IOException ex) {
                 System.out.println("IOException from WTC run()");
+            }
+            try {
+                dataOut.close();
+            } catch (IOException e) {
+                System.out.println("end");
             }
         }
 

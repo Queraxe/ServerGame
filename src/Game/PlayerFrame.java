@@ -52,12 +52,9 @@ public class PlayerFrame {
         if (playerID == 1){
             me = new PlayerSprite(100,200, 50, Color.blue);
             enemy = new PlayerSprite(200,200,50, Color.red);
-        } else if (playerID == 2){
-            me = new PlayerSprite(200,200,50, Color.red);
+        } else {
             enemy = new PlayerSprite(100,200, 50, Color.blue);
-        } else{ // none player
-            me = new PlayerSprite(100,200, 50, Color.blue);
-            enemy = new PlayerSprite(200,200,50, Color.red);
+            me = new PlayerSprite(200,200,50, Color.red);
         }
     }
 
@@ -128,7 +125,7 @@ public class PlayerFrame {
 
     public void connect(){
         try {
-            socket = new Socket("localhost", port);
+            socket = new Socket(serverIP, port);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -170,7 +167,6 @@ public class PlayerFrame {
             try {
                 while (true) {
                     if (enemy != null) {
-                        System.out.println("in");
                         enemy.setX(dataIn.readDouble());
                         enemy.setY(dataIn.readDouble());
                     }
