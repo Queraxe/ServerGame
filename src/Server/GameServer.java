@@ -167,9 +167,14 @@ public class GameServer {
     }
 
     public static void main(String[] args) {
-        GameServer gs = new GameServer();
-        gs.acceptClients();
-
-        gs.end();
+        try {
+            while (true) {
+                GameServer gs = new GameServer();
+                gs.acceptClients();
+                end();
+            }
+        } catch (Exception ex){
+            System.out.println("Exception main while");
+        }
     }
 }
