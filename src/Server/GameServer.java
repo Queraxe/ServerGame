@@ -19,6 +19,7 @@ public class GameServer {
 
 
     public GameServer(){
+        // define some ints
         System.out.println("=== GAME SERVER ===");
         numPlayers = 0;
         maxPlayers = 2;
@@ -35,6 +36,7 @@ public class GameServer {
         }
     }
 
+    // accept the players
     public void acceptClients(){
 
         while (numPlayers < maxPlayers) {
@@ -78,11 +80,13 @@ public class GameServer {
         System.out.println("--The GAME begins!--");
     }
 
+
     public static void end(){
         numPlayers = 0;
     }
 
 
+    // read the clients msg
     private static class ReadFromClient implements Runnable{
 
         private int playerID;
@@ -116,6 +120,8 @@ public class GameServer {
             }
         }
     }
+
+    // write the clients msg
     private static class WriteToClient implements Runnable{
 
         private int playerID;
@@ -166,6 +172,7 @@ public class GameServer {
 
     }
 
+    // main methode
     public static void main(String[] args) {
         try {
             while (true) {
@@ -176,5 +183,6 @@ public class GameServer {
         } catch (Exception ex){
             System.out.println("Exception main while");
         }
+        System.out.println("while in main interrupted");
     }
 }
