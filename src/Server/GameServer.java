@@ -15,10 +15,10 @@ public class GameServer {
     private ReadFromClient p1ReadRunnable, p2ReadRunnable;
     private WriteToClient p1WriteRunnable, p2WriteRunnable;
 
-    public static double p1x,p1y,p2x,p2y;
+    public static double p1x, p1y, p2x, p2y;
 
 
-    public GameServer(){
+    public GameServer() {
         // define some ints
         System.out.println("=== GAME SERVER ===");
         numPlayers = 0;
@@ -37,7 +37,7 @@ public class GameServer {
     }
 
     // accept the players
-    public void acceptClients(){
+    public void acceptClients() {
 
         while (numPlayers < maxPlayers) {
             try {
@@ -52,11 +52,11 @@ public class GameServer {
                 ReadFromClient rfc = new ReadFromClient(numPlayers, in);
                 WriteToClient wtc = new WriteToClient(numPlayers, out);
 
-                if (numPlayers == 1){
+                if (numPlayers == 1) {
                     p1Socket = s;
                     p1ReadRunnable = rfc;
                     p1WriteRunnable = wtc;
-                }  else {
+                } else {
                     p2Socket = s;
                     p2ReadRunnable = rfc;
                     p2WriteRunnable = wtc;
@@ -81,18 +81,18 @@ public class GameServer {
     }
 
 
-    public static void end(){
+    public static void end() {
         numPlayers = 0;
     }
 
 
     // read the clients msg
-    private static class ReadFromClient implements Runnable{
+    private static class ReadFromClient implements Runnable {
 
         private int playerID;
         private DataInputStream dataIn;
 
-        public ReadFromClient(int pid, DataInputStream in){
+        public ReadFromClient(int pid, DataInputStream in) {
             playerID = pid;
             dataIn = in;
             System.out.println("RFC" + playerID + "Runnable created");
@@ -122,12 +122,12 @@ public class GameServer {
     }
 
     // write the clients msg
-    private static class WriteToClient implements Runnable{
+    private static class WriteToClient implements Runnable {
 
         private int playerID;
         private DataOutputStream dataOut;
 
-        public WriteToClient(int pid, DataOutputStream in){
+        public WriteToClient(int pid, DataOutputStream in) {
             playerID = pid;
             dataOut = in;
             System.out.println("WTC" + playerID + "Runnable created");
@@ -162,7 +162,7 @@ public class GameServer {
             }
         }
 
-        public void sendStartMsg(){
+        public void sendStartMsg() {
             try {
                 dataOut.writeUTF("--- GO! ---");
             } catch (IOException ex) {
@@ -174,15 +174,14 @@ public class GameServer {
 
     // main methode
     public static void main(String[] args) {
-        try {
-            while (true) {
-                GameServer gs = new GameServer();
-                gs.acceptClients();
-                end();
-            }
-        } catch (Exception ex){
-            System.out.println("Exception main while");
+        boolean runAgain = true;
+        while (runAgain) {
+            GameServer gs = new GameServer();
+            gs.acceptClients();
+            end();
         }
         System.out.println("while in main interrupted");
     }
+
+
 }
