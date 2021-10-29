@@ -7,8 +7,8 @@ import static Game.PlayerFrame.*;
 
 public class PlayerServer {
 
-    //static String serverIP = "92.75.167.95";
-    static String serverIP = "localhost";
+    static String serverIP = "92.75.167.95";
+    //static String serverIP = "localhost";
     static int port = 9933;
     static Socket socket;
     static int playerID;
