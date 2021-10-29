@@ -5,15 +5,15 @@ import java.net.*;
 
 public class GameServer {
 
-    private ServerSocket ss;
-    private int numPort = 9933;
+    static ServerSocket ss;
+    int numPort = 9933;
     static int numPlayers;
-    private int maxPlayers;
+    int maxPlayers;
 
-    private Socket p1Socket;
-    private Socket p2Socket;
-    private ReadFromClient p1ReadRunnable, p2ReadRunnable;
-    private WriteToClient p1WriteRunnable, p2WriteRunnable;
+    Socket p1Socket;
+    Socket p2Socket;
+    static ReadFromClient p1ReadRunnable, p2ReadRunnable;
+    static WriteToClient p1WriteRunnable, p2WriteRunnable;
 
     public static double p1x, p1y, p2x, p2y;
 
@@ -30,7 +30,9 @@ public class GameServer {
         p2y = 200;
 
         try {
+
             ss = new ServerSocket(numPort);
+
         } catch (IOException ex) {
             System.out.println("IOException from GameServer constructor");
         }
@@ -83,6 +85,14 @@ public class GameServer {
 
     public static void end() {
         numPlayers = 0;
+
+        try {
+            ss.close();
+
+        } catch (IOException e) {
+            System.out.println("IOException from close");
+        }
+        System.out.println("\n");
     }
 
 
@@ -154,6 +164,7 @@ public class GameServer {
 
             } catch (IOException ex) {
                 System.out.println("IOException from WTC run()");
+                numPlayers --;
             }
             try {
                 dataOut.close();
@@ -176,8 +187,16 @@ public class GameServer {
     public static void main(String[] args) {
         boolean runAgain = true;
         while (runAgain) {
+
             GameServer gs = new GameServer();
             gs.acceptClients();
+            while (numPlayers != 0) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("InterruptedException from Thread.sleep");
+                }
+            }
             end();
         }
         System.out.println("while in main interrupted");
