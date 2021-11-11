@@ -1,7 +1,7 @@
 package Game;
 
 import javax.swing.*;
-import java.awt.*; // penis
+import java.awt.*; // penis und co.
 
 import static Game.PlayerServer.playerID;
 
