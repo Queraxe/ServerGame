@@ -7,7 +7,7 @@ import static Game.PlayerFrame.*;
 
 public class PlayerServer {
 
-    static String serverIP = "92.75.167.95";
+    static String serverIP = "92.75.171.231";
     //static String serverIP = "localhost";
     static int port = 9933;
     static Socket socket;
@@ -111,7 +111,4 @@ public class PlayerServer {
             }
         }
     }
-
-
-
 }

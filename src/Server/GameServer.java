@@ -2,6 +2,8 @@ package Server;
 
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class GameServer {
 
@@ -79,6 +81,10 @@ public class GameServer {
                 System.out.println("IOException from acceptClient()");
             }
         }
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
+        System.out.println(formatter.format(date));
+
         System.out.println("--The GAME begins!--");
     }
 
@@ -88,7 +94,6 @@ public class GameServer {
 
         try {
             ss.close();
-
         } catch (IOException e) {
             System.out.println("IOException from close");
         }
