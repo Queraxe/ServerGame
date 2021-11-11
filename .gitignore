@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 @@ -1,23 +0,0 @@
+=======
+>>>>>>> parent of 9867c5d (hallo)
 # Compiled class file
 *.class
 
@@ -21,4 +24,8 @@
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+<<<<<<< HEAD
 hs_err_pid*
+=======
+hs_err_pid*
+>>>>>>> parent of 9867c5d (hallo)
